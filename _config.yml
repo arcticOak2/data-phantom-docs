@@ -4,7 +4,7 @@
 title: "Data Phantom Platform"
 description: "A comprehensive data processing and analytics platform for managing SQL workflows across multiple engines with AWS EMR integration"
 url: "https://arcticoak2.github.io"
-baseurl: ""
+baseurl: "/data-phantom-docs"
 
 # Author information
 author:
