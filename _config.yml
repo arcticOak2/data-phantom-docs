@@ -3,8 +3,8 @@
 # Site settings
 title: "Data Phantom Platform"
 description: "A comprehensive data processing and analytics platform for managing SQL workflows across multiple engines with AWS EMR integration"
-url: "https://yourusername.github.io"
-baseurl: "/data-phantom-docs"
+url: "https://arcticoak2.github.io"
+baseurl: ""
 
 # Author information
 author:
@@ -39,7 +39,7 @@ include:
   - _config.yml
 
 # Repository information
-repository: "yourusername/data-phantom-docs"
+repository: "arcticOak2/data-phantom-docs"
 
 # SEO settings
 lang: "en"
