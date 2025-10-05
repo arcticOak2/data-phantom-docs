@@ -4,14 +4,14 @@ This repository contains the official documentation for the Data Phantom Platfor
 
 ## 🌐 Live Documentation
 
-Visit the live documentation at: [https://yourusername.github.io/data-phantom-docs](https://yourusername.github.io/data-phantom-docs)
+Visit the live documentation at: [https://arcticOak2.github.io/data-phantom-docs](https://arcticOak2.github.io/data-phantom-docs)
 
 ## 📚 Documentation Structure
 
 - **[Home](index.html)** - Platform overview and features
 - **[Getting Started](getting-started.html)** - Complete setup and installation guide
+- **[Quick Start Guide](quick-start.html)** - Visual step-by-step guide with screenshots
 - **[Configuration](configuration.html)** - Configuration guide and best practices
-- **[Examples](examples.html)** - Practical examples and use cases
 
 ## 🚀 Features Covered
 
@@ -37,7 +37,7 @@ To run the documentation locally:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/data-phantom-docs.git
+   git clone https://github.com/arcticOak2/data-phantom-docs.git
    cd data-phantom-docs
    ```
 
@@ -61,7 +61,7 @@ To run the documentation locally:
 We welcome contributions to improve the documentation! Here's how you can help:
 
 ### Reporting Issues
-- Found a typo or error? [Open an issue](https://github.com/yourusername/data-phantom-docs/issues)
+- Found a typo or error? [Open an issue](https://github.com/arcticOak2/data-phantom-docs/issues)
 - Missing information? Let us know what should be added
 - Broken links or outdated content? Report it
 
@@ -87,9 +87,12 @@ We welcome contributions to improve the documentation! Here's how you can help:
 data-phantom-docs/
 ├── index.html              # Homepage
 ├── getting-started.html    # Setup guide
+├── quick-start.html        # Visual step-by-step guide
 ├── configuration.html      # Configuration guide
-├── examples.html          # Examples and use cases
 ├── assets/
+│   ├── images/            # Screenshots (14 files)
+│   │   ├── 01-login-page.png
+│   │   └── ...
 │   ├── css/
 │   │   ├── style.css      # Main styles
 │   │   └── prism.css      # Code highlighting
@@ -111,7 +114,7 @@ This documentation is automatically deployed to GitHub Pages when changes are pu
 4. Choose `main` branch and `/ (root)` folder
 5. Click "Save"
 
-The site will be available at: `https://yourusername.github.io/data-phantom-docs`
+The site will be available at: `https://arcticOak2.github.io/data-phantom-docs`
 
 ## 🔗 Related Projects
 
@@ -140,4 +143,4 @@ This documentation is licensed under the Apache License 2.0 - see the main proje
 
 For questions about the Data Phantom Platform itself, please refer to the [main repository](https://github.com/arcticOak2/annihilator-data-playground).
 
-For documentation-specific questions, feel free to [open an issue](https://github.com/yourusername/data-phantom-docs/issues) in this repository.
+For documentation-specific questions, feel free to [open an issue](https://github.com/arcticOak2/data-phantom-docs/issues) in this repository.
