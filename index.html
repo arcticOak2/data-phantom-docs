@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Phantom Platform - Documentation</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/prism.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-database"></i>
+                <span>Data Phantom</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="getting-started.html" class="nav-link">Getting Started</a>
+                <a href="quick-start.html" class="nav-link">Quick Start</a>
+                <a href="configuration.html" class="nav-link">Configuration</a>
+                <a href="https://github.com/arcticOak2/annihilator-data-playground" class="nav-link" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Data Phantom Platform</h1>
+                <p class="hero-subtitle">A comprehensive data processing and analytics platform for managing SQL workflows across multiple engines with AWS EMR integration</p>
+                <div class="hero-buttons">
+                    <a href="getting-started.html" class="btn btn-primary">Get Started</a>
+                    <a href="https://github.com/arcticOak2/annihilator-data-playground" class="btn btn-secondary" target="_blank">
+                        <i class="fab fa-github"></i> View on GitHub
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">SQL Engines</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">AWS</div>
+                        <div class="stat-label">Cloud Integration</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">DAG</div>
+                        <div class="stat-label">Workflow Management</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                        <div class="hero-diagram">
+                    <div class="diagram-flow">
+                        <div class="flow-title">Scheduled Flow</div>
+                        <div class="diagram-node scheduled">Cron-based Execution</div>
+                    </div>
+                    <div class="diagram-flow">
+                        <div class="flow-title">Adhoc Flow</div>
+                        <div class="diagram-node adhoc">On-demand Execution</div>
+                    </div>
+                    <div class="diagram-flow">
+                        <div class="flow-title">Recovery Flow</div>
+                        <div class="diagram-node recovery">Resume from Checkpoint</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Powerful Features</h2>
+                <p>Everything you need for enterprise-grade data processing and analytics</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Multi-Engine SQL Support</h3>
+                    <p>Execute queries across Hive, Presto, Spark SQL, MySQL, and PySpark with seamless integration</p>
+                    <ul class="feature-list">
+                        <li>Apache Hive for data warehousing</li>
+                        <li>Presto for distributed queries</li>
+                        <li>Spark SQL for big data processing</li>
+                        <li>MySQL for direct database connections</li>
+                        <li>PySpark for Python-based processing</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>Visual Workflow Management</h3>
+                    <p>Create and manage complex data pipelines with dependency tracking and visual DAG representation</p>
+                    <ul class="feature-list">
+                        <li>Directed Acyclic Graph (DAG) support</li>
+                        <li>Task dependency management</li>
+                        <li>Parallel execution optimization</li>
+                        <li>Visual workflow designer</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Three Execution Flows</h3>
+                    <p>Comprehensive execution model with scheduled, on-demand, and fault-tolerant recovery</p>
+                    <ul class="feature-list">
+                        <li>Scheduled Flow: Cron-based priority queue execution</li>
+                        <li>Adhoc Flow: On-demand playground execution</li>
+                        <li>Recovery Flow: Resume from checkpoint after failures</li>
+                        <li>5-minute auto-discovery of playground updates</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Data Reconciliation</h3>
+                    <p>Intelligent S3-based data validation with adaptive algorithms based on file size</p>
+                    <ul class="feature-list">
+                        <li>Exact Match: Files < 1MB for precise comparison</li>
+                        <li>Bloom Filter: Files > 1MB for probabilistic matching</li>
+                        <li>S3 Output Reading: Direct comparison from task outputs</li>
+                        <li>User-defined reconciliation mappings</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <h3>AWS Integration</h3>
+                    <p>Native AWS EMR and S3 integration for scalable cloud-based data processing</p>
+                    <ul class="feature-list">
+                        <li>EMR cluster management</li>
+                        <li>S3 data storage integration</li>
+                        <li>CloudFormation stack support</li>
+                        <li>Automatic scaling</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>UDF Support</h3>
+                    <p>Upload and manage custom User-Defined Functions with JAR file support</p>
+                    <ul class="feature-list">
+                        <li>Custom JAR upload</li>
+                        <li>Task-specific UDF assignment</li>
+                        <li>Runtime registration</li>
+                        <li>Function library management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="tech-stack">
+        <div class="container">
+            <div class="section-header">
+                <h2>Modern Tech Stack</h2>
+                <p>Built with industry-leading technologies for performance and reliability</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <i class="fab fa-java"></i>
+                    <div class="tech-info">
+                        <h4>Java 11</h4>
+                        <p>Backend Development</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-cube"></i>
+                    <div class="tech-info">
+                        <h4>Dropwizard 4.0.2</h4>
+                        <p>REST API Framework</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-react"></i>
+                    <div class="tech-info">
+                        <h4>React 18.3.1</h4>
+                        <p>Frontend Dashboard</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <div class="tech-info">
+                        <h4>MariaDB/MySQL</h4>
+                        <p>Database</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-aws"></i>
+                    <div class="tech-info">
+                        <h4>AWS EMR & S3</h4>
+                        <p>Cloud Services</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-tools"></i>
+                    <div class="tech-info">
+                        <h4>Maven</h4>
+                        <p>Build Tool</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section class="quick-start">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quick Start</h2>
+                <p>Get up and running with Data Phantom in minutes</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Install Dependencies</h3>
+                        <p>Set up MariaDB and configure your environment</p>
+                        <div class="code-block">
+                            <code>brew install mariadb<br>brew services start mariadb</code>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Configure Database</h3>
+                        <p>Create database and run the DDL script</p>
+                        <div class="code-block">
+                            <code>mysql -u root -p data_phantom < database.ddl</code>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Build & Run</h3>
+                        <p>Build the application and start the server</p>
+                        <div class="code-block">
+                            <code>mvn clean install<br>java -jar target/annihilator-data-phantom-1.0-SNAPSHOT.jar server config-dev.yml</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="quick-start-footer">
+                <a href="getting-started.html" class="btn btn-primary">Complete Setup Guide</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Data Phantom Platform</h4>
+                    <p>Enterprise-grade data processing and analytics platform</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/arcticOak2/annihilator-data-playground" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/abhijeet-kumar-983b57a4/" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="getting-started.html">Getting Started</a></li>
+                        <li><a href="quick-start.html">Quick Start</a></li>
+                        <li><a href="configuration.html">Configuration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/arcticOak2/data-phantom-dashboard" target="_blank">Frontend Dashboard</a></li>
+                        <li><a href="#" onclick="alert('Coming soon!')">Community</a></li>
+                        <li><a href="#" onclick="alert('Coming soon!')">Support</a></li>
+                        <li><a href="#" onclick="alert('Coming soon!')">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><strong>Abhijeet Kumar</strong></p>
+                    <p><a href="mailto:searchabhijeet@gmail.com">searchabhijeet@gmail.com</a></p>
+                    <p>Apache License 2.0</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Data Phantom Platform. Licensed under Apache License 2.0.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/prism.js"></script>
+</body>
+</html>

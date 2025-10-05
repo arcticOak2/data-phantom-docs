@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - Data Phantom Platform</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/prism.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-database"></i>
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <span>Data Phantom</span>
+                </a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="getting-started.html" class="nav-link active">Getting Started</a>
+                <a href="quick-start.html" class="nav-link">Quick Start</a>
+                <a href="configuration.html" class="nav-link">Configuration</a>
+                <a href="https://github.com/arcticOak2/annihilator-data-playground" class="nav-link" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Getting Started Content -->
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <nav class="sidebar-nav">
+                        <h4>Getting Started</h4>
+                        <ul>
+                            <li><a href="#overview">Overview</a></li>
+                            <li><a href="#architecture">System Architecture</a></li>
+                            <li><a href="#prerequisites">Prerequisites</a></li>
+                            <li><a href="#installation">Installation</a></li>
+                            <li><a href="#configuration">Configuration</a></li>
+                            <li><a href="#first-playground">Complete Development Setup</a></li>
+                            <li><a href="#verification">Verification</a></li>
+                            <li><a href="#next-steps">Next Steps</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="main-content">
+                    <header class="page-header">
+                        <h1>Getting Started with Data Phantom</h1>
+                        <p>This guide will help you set up and run Data Phantom Platform on your local machine or server environment.</p>
+                    </header>
+
+                    <section id="overview" class="content-section">
+                        <h2>Overview</h2>
+                        <p>Data Phantom is a comprehensive data processing platform that enables you to create, schedule, and manage SQL workflows across multiple engines. This guide covers the complete setup process from installation to creating your first data pipeline.</p>
+                        
+                        <div class="info-box">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>Time to Complete:</strong> Approximately 15-30 minutes<br>
+                                <strong>Difficulty:</strong> Beginner to Intermediate
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="architecture" class="content-section">
+                        <h2>System Architecture</h2>
+                        <p>Data Phantom Platform operates through three core execution flows, each designed for specific use cases and fault tolerance.</p>
+                        
+                        <div class="architecture-flows">
+                            <div class="flow-detail">
+                                <div class="flow-icon scheduled">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="flow-content">
+                                    <h3>1. Scheduled Flow</h3>
+                                    <p>Automated execution based on cron expressions with intelligent scheduling:</p>
+                                    <ul>
+                                        <li><strong>Priority Queue:</strong> Manages all playgrounds with non-empty cron expressions</li>
+                                        <li><strong>Auto-Discovery:</strong> Scans meta store every 5 minutes for playground updates (configurable)</li>
+                                        <li><strong>Conflict Prevention:</strong> Uses configurable grace periods to prevent overlapping executions</li>
+                                        <li><strong>Load Balancing:</strong> Distributes scheduled tasks across available resources</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="flow-detail">
+                                <div class="flow-icon adhoc">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <div class="flow-content">
+                                    <h3>2. Adhoc Flow</h3>
+                                    <p>On-demand execution for immediate data processing needs:</p>
+                                    <ul>
+                                        <li><strong>Manual Triggers:</strong> Execute entire playgrounds instantly via API or dashboard</li>
+                                        <li><strong>Limited Runs:</strong> Execute only selected tasks within a playground</li>
+                                        <li><strong>Real-time Monitoring:</strong> Track execution progress and status updates</li>
+                                        <li><strong>Immediate Feedback:</strong> Get instant results without waiting for schedules</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="flow-detail">
+                                <div class="flow-icon recovery">
+                                    <i class="fas fa-redo-alt"></i>
+                                </div>
+                                <div class="flow-content">
+                                    <h3>3. Recovery Flow</h3>
+                                    <p>Fault-tolerant execution with intelligent checkpoint recovery:</p>
+                                    <ul>
+                                        <li><strong>State Persistence:</strong> Continuously saves execution state to meta store</li>
+                                        <li><strong>Smart Resume:</strong> Automatically resumes from last successful checkpoint after system restart</li>
+                                        <li><strong>Task Skipping:</strong> Avoids re-running tasks that were already completed or failed</li>
+                                        <li><strong>Data Integrity:</strong> Ensures no data loss during system failures</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="reconciliation-detail">
+                            <h3>Data Reconciliation Engine</h3>
+                            <p>Automated data validation system that compares task outputs with adaptive algorithms:</p>
+                            
+                            <div class="reconciliation-methods">
+                                <div class="method-card">
+                                    <h4><i class="fas fa-equals"></i> Exact Match (< 1MB)</h4>
+                                    <p>For smaller files, uses precise byte-by-byte comparison:</p>
+                                    <ul>
+                                        <li>100% accuracy for small datasets</li>
+                                        <li>Memory efficient for files under 1MB (configurable)</li>
+                                        <li>Ideal for configuration files and small reports</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="method-card">
+                                    <h4><i class="fas fa-filter"></i> Bloom Filter (> 1MB)</h4>
+                                    <p>For larger files, uses probabilistic matching for performance:</p>
+                                    <ul>
+                                        <li>Memory efficient for files over 1MB</li>
+                                        <li>Configurable false positive rate</li>
+                                        <li>Ideal for large datasets with millions of records</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="info-box">
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <strong>S3 Integration:</strong> All task outputs are written to S3, and reconciliation reads directly from S3 for scalable comparison across distributed data.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="prerequisites" class="content-section">
+                        <h2>Prerequisites</h2>
+                        <p>Before you begin, ensure you have the following installed on your system:</p>
+                        
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <i class="fab fa-java"></i>
+                                <h4>Java 11+</h4>
+                                <p>OpenJDK or Oracle JDK 11 or higher</p>
+                                <div class="code-block">
+                                    <code>java -version</code>
+                                </div>
+                            </div>
+                            <div class="requirement-card">
+                                <i class="fas fa-tools"></i>
+                                <h4>Maven 3.6+</h4>
+                                <p>For building the application</p>
+                                <div class="code-block">
+                                    <code>mvn -version</code>
+                                </div>
+                            </div>
+                            <div class="requirement-card">
+                                <i class="fas fa-database"></i>
+                                <h4>MariaDB/MySQL</h4>
+                                <p>Database server for metadata storage</p>
+                                <div class="code-block">
+                                    <code>mysql --version</code>
+                                </div>
+                            </div>
+                            <div class="requirement-card">
+                                <i class="fab fa-aws"></i>
+                                <h4>AWS Account (Optional)</h4>
+                                <p>For EMR and S3 integration</p>
+                                <div class="code-block">
+                                    <code>aws --version</code>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="installation" class="content-section">
+                        <h2>Installation</h2>
+                        
+                        <div class="step-by-step">
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">1</span>
+                                    <h3>Clone the Repository</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>First, clone the Data Phantom repository to your local machine:</p>
+                                    <div class="code-block">
+                                        <code>git clone https://github.com/arcticOak2/annihilator-data-playground.git
+cd annihilator-data-playground</code>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">2</span>
+                                    <h3>Install MariaDB</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Install MariaDB based on your operating system:</p>
+                                    
+                                    <div class="tab-container">
+                                        <div class="tab-buttons">
+                                            <button class="tab-button active" data-tab="macos-install">macOS</button>
+                                            <button class="tab-button" data-tab="ubuntu-install">Ubuntu/Debian</button>
+                                            <button class="tab-button" data-tab="centos-install">CentOS/RHEL</button>
+                                            <button class="tab-button" data-tab="windows-install">Windows</button>
+                                        </div>
+                                        
+                                        <div id="macos-install" class="tab-content active">
+                                            <div class="code-block">
+                                                <code># Install MariaDB using Homebrew
+brew install mariadb
+
+# Start MariaDB service
+brew services start mariadb
+
+# Secure installation (optional but recommended)
+mysql_secure_installation</code>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="ubuntu-install" class="tab-content">
+                                            <div class="code-block">
+                                                <code># Update package index
+sudo apt update
+
+# Install MariaDB
+sudo apt install mariadb-server
+
+# Start MariaDB service
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+
+# Secure installation
+sudo mysql_secure_installation</code>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="centos-install" class="tab-content">
+                                            <div class="code-block">
+                                                <code># Install MariaDB
+sudo yum install mariadb-server
+
+# Start MariaDB service
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+
+# Secure installation
+sudo mysql_secure_installation</code>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="windows-install" class="tab-content">
+                                            <div class="code-block">
+                                                <code># Download MariaDB from: https://mariadb.org/download/
+# Run the installer and follow the setup wizard
+# Or use Chocolatey:
+choco install mariadb
+
+# Start MariaDB service
+net start mysql</code>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">3</span>
+                                    <h3>Setup Database</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Create the database and initialize the schema:</p>
+                                    <div class="code-block">
+                                        <code># Connect to MariaDB
+mysql -u root -p
+
+# Create database
+CREATE DATABASE data_phantom;
+EXIT;
+
+# Run DDL script to create tables
+mysql -u root -p data_phantom < src/main/resources/database.ddl</code>
+                                    </div>
+                                    
+                                    <div class="warning-box">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <div>
+                                            <strong>Note:</strong> Make sure to set a strong password for your database root user during the secure installation process.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">4</span>
+                                    <h3>Configure Application Settings</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Add all your configurations and secrets to <code>config-dev.yml</code>:</p>
+                                    <div class="code-block">
+                                        <code># Edit src/main/resources/config-dev.yml
+# Update the following sections with your values:
+
+# ============================================
+# Database Configuration
+# ============================================
+meta_store:
+  url: jdbc:mariadb://localhost:3306/data_phantom
+  user: root
+  password: your_root_password
+
+
+# ============================================
+# JWT Configuration
+# ============================================
+jwt:
+  secretKey: "your-super-secret-jwt-key-change-this-in-production"
+  tokenExpirationMinutes: 60
+  refreshTokenExpirationDays: 7
+
+
+# ============================================
+# AWS Configuration (Optional - for EMR integration)
+# ============================================
+connector:
+  aws_emr:
+    access_key: your_access_key
+    secret_key: your_secret_key
+    s3_bucket: your_s3_bucket
+    s3_path_prefix: data-phantom
+    region: us-east-1
+    stack_name: DataPhantomClusterStack
+    cluster_logical_id: DataPhantomCluster</code>
+                                    </div>
+                                    
+                                    <div class="alert alert-warning">
+                                        <strong>Security Note:</strong> Never commit <code>config-dev.yml</code> with real credentials to version control. Use environment-specific config files or a secrets management system for production.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">5</span>
+                                    <h3>Build the Application</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Build the application using Maven:</p>
+                                    <div class="code-block">
+                                        <code># Clean and build the project
+mvn clean install
+
+# This will:
+# - Compile the source code
+# - Run unit tests
+# - Package the application into a JAR file
+# - Create target/annihilator-data-phantom-1.0-SNAPSHOT.jar</code>
+                                    </div>
+                                    
+                                    <p>If the build is successful, you should see output similar to:</p>
+                                    <div class="code-block">
+                                        <code>[INFO] BUILD SUCCESS
+[INFO] Total time: 45.123 s
+[INFO] Finished at: 2024-01-15T10:30:45Z</code>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">6</span>
+                                    <h3>Start the Application</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Run the Data Phantom server:</p>
+                                    <div class="code-block">
+                                        <code>java -jar target/annihilator-data-phantom-1.0-SNAPSHOT.jar server src/main/resources/config-dev.yml</code>
+                                    </div>
+                                    
+                                    <p>The application will start and you should see output indicating the server is running:</p>
+                                    <div class="code-block">
+                                        <code>INFO  [2024-01-15 10:35:00,123] io.dropwizard.server.ServerFactory: Starting DataPhantomApplication
+INFO  [2024-01-15 10:35:01,456] org.eclipse.jetty.server.Server: Started @2345ms</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="configuration" class="content-section">
+                        <h2>Configuration</h2>
+                        <p>Data Phantom uses a YAML configuration file located at <code>src/main/resources/config-dev.yml</code>. Here are the key configuration sections:</p>
+                        
+                        <div class="config-sections">
+                            <div class="config-section">
+                                <h4><i class="fas fa-server"></i> Server Configuration</h4>
+                                <div class="code-block">
+                                    <code>server:
+  applicationConnectors:
+    - type: http
+      port: 9092
+  adminConnectors:
+    - type: http
+      port: 9093</code>
+                                </div>
+                            </div>
+                            
+                            <div class="config-section">
+                                <h4><i class="fas fa-database"></i> Database Configuration</h4>
+                                <div class="code-block">
+                                    <code>meta_store:
+  driverClass: org.mariadb.jdbc.Driver
+  url: ${MYSQL_URL:jdbc:mariadb://localhost:3306/data_phantom}
+  user: ${MYSQL_USER:root}
+  password: ${MYSQL_PASSWORD:your-password}
+  maxSize: 50</code>
+                                </div>
+                            </div>
+                            
+                            <div class="config-section">
+                                <h4><i class="fas fa-key"></i> JWT Authentication</h4>
+                                <div class="code-block">
+                                    <code>jwt:
+  secretKey: "${JWT_SECRET_KEY:your-secret-key}"
+  tokenExpirationMinutes: 60
+  refreshTokenExpirationDays: 7</code>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p>For detailed configuration options, see the <a href="configuration.html">Configuration Guide</a>.</p>
+                    </section>
+
+                    <section id="first-playground" class="content-section">
+                        <h2>Complete Development Setup</h2>
+                        <p>Set up the complete Data Phantom Platform with both backend and frontend for full development experience:</p>
+                        
+                        <div class="setup-overview">
+                            <div class="setup-component">
+                                <h4><i class="fas fa-server"></i> Backend Setup</h4>
+                                <p>Java-based API server with Dropwizard</p>
+                            </div>
+                            <div class="setup-component">
+                                <h4><i class="fas fa-desktop"></i> Frontend Setup</h4>
+                                <p>React-based dashboard interface</p>
+                            </div>
+                            <div class="setup-component">
+                                <h4><i class="fas fa-database"></i> Database Setup</h4>
+                                <p>MariaDB with DDL schema</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step-by-step">
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">1</span>
+                                    <h3>Clone Required Repositories</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Clone both the backend and frontend repositories:</p>
+                                    <div class="code-block">
+                                        <code># Clone backend repository
+git clone https://github.com/arcticOak2/annihilator-data-playground.git
+cd annihilator-data-playground
+
+# Clone frontend repository (in separate terminal/directory)
+git clone https://github.com/arcticOak2/data-phantom-dashboard.git
+cd data-phantom-dashboard</code>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">2</span>
+                                    <h3>Setup and Initialize Database</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Install MariaDB and create the schema using the DDL file:</p>
+                                    <div class="code-block">
+                                        <code># Install MariaDB (macOS)
+brew install mariadb
+brew services start mariadb
+
+# Create database
+mysql -u root -p
+CREATE DATABASE data_phantom;
+EXIT;
+
+# Run DDL file to create all meta tables
+cd annihilator-data-playground
+mysql -u root -p data_phantom < src/main/resources/database.ddl</code>
+                                    </div>
+                                    
+                                    <div class="info-box">
+                                        <i class="fas fa-info-circle"></i>
+                                        <div>
+                                            <strong>DDL Location:</strong> The database schema file is located at <code>src/main/resources/database.ddl</code> in the backend repository.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">3</span>
+                                    <h3>Build and Start Backend</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Build the backend JAR and start the server:</p>
+                                    <div class="code-block">
+                                        <code># Navigate to backend directory
+cd annihilator-data-playground
+
+# Update configuration file with your database credentials
+# Edit src/main/resources/config-dev.yml and add your secrets:
+# - Database password
+# - JWT secret key
+# - AWS credentials (if using EMR)
+
+# Build the project
+mvn clean install
+
+# Start the backend server
+java -jar target/annihilator-data-phantom-1.0-SNAPSHOT.jar server src/main/resources/config-dev.yml</code>
+                                    </div>
+                                    
+                                    <div class="info-box">
+                                        <i class="fas fa-edit"></i>
+                                        <div>
+                                            <strong>Configuration:</strong> Update <code>src/main/resources/config-dev.yml</code> with your database password, JWT secret key, and other credentials before starting the server.
+                                        </div>
+                                    </div>
+                                    
+                                    <h4>Configuration Parameters Explained</h4>
+                                    <p>Here are the key configuration sections you need to customize:</p>
+                                    
+                                    <div class="config-sections">
+                                        <div class="config-section">
+                                            <h5><i class="fas fa-server"></i> Server Configuration</h5>
+                                            <div class="code-block">
+                                                <code>server:
+  applicationConnectors:
+    - type: http
+      port: 9092              # Main API server port
+  adminConnectors:
+    - type: http
+      port: 9093              # Admin/health check port</code>
+                                            </div>
+                                            <p><strong>Purpose:</strong> Defines which ports the application listens on for API requests and admin operations.</p>
+                                        </div>
+                                        
+                                        <div class="config-section">
+                                            <h5><i class="fas fa-database"></i> Database Configuration</h5>
+                                            <div class="code-block">
+                                                <code>meta_store:
+  driverClass: org.mariadb.jdbc.Driver
+  url: jdbc:mariadb://localhost:3306/data_phantom
+  user: root
+  password: your_root_password    # UPDATE THIS
+  maxSize: 50                     # Max database connections
+  minSize: 10                     # Min database connections
+  validationQuery: "SELECT 1"    # Health check query</code>
+                                            </div>
+                                            <p><strong>Purpose:</strong> Connects to MariaDB/MySQL database where all playground metadata, task definitions, and execution history are stored.</p>
+                                        </div>
+                                        
+                                        <div class="config-section">
+                                            <h5><i class="fas fa-key"></i> JWT Authentication</h5>
+                                            <div class="code-block">
+                                                <code>jwt:
+  secretKey: "your-super-secret-jwt-key"    # UPDATE THIS
+  tokenExpirationMinutes: 60                # Access token lifetime
+  refreshTokenExpirationDays: 7             # Refresh token lifetime</code>
+                                            </div>
+                                            <p><strong>Purpose:</strong> Secures API endpoints with JWT tokens. Users must authenticate to access the platform.</p>
+                                        </div>
+                                        
+                                        <div class="config-section">
+                                            <h5><i class="fas fa-cogs"></i> Concurrency & Performance</h5>
+                                            <div class="code-block">
+                                                <code>concurrency_config:
+  adhoc_threadpool_size: 200              # Concurrent adhoc executions
+  scheduled_threadpool_size: 200          # Concurrent scheduled executions
+  scheduler_sleep_time: 300000            # 5 minutes - priority queue scan interval
+  playground_execution_grace_period: 300000    # 5 minutes - execution timeout
+  playground_max_execution_frequency: 360000   # 6 minutes - min time between runs</code>
+                                            </div>
+                                            <p><strong>Purpose:</strong> Controls how many playgrounds can run simultaneously and how the scheduler operates.</p>
+                                        </div>
+                                        
+                                        <div class="config-section">
+                                            <h5><i class="fas fa-balance-scale"></i> Reconciliation Settings</h5>
+                                            <div class="code-block">
+                                                <code>reconciliation_settings:
+  exact_match_threshold: 1048576    # 1MB - files smaller use exact matching
+  false_positive_rate: 0.1          # 10% - bloom filter error rate
+  estimated_rows: 1000000           # Expected rows for bloom filter sizing</code>
+                                            </div>
+                                            <p><strong>Purpose:</strong> Determines when to use exact matching vs bloom filter for data reconciliation based on file size.</p>
+                                        </div>
+                                        
+                                        <div class="config-section">
+                                            <h5><i class="fab fa-aws"></i> AWS EMR Configuration (Optional)</h5>
+                                            <div class="code-block">
+                                                <code>connector:
+  aws_emr:
+    access_key: your-access-key           # UPDATE THIS
+    secret_key: your-secret-key           # UPDATE THIS
+    s3_bucket: your-s3-bucket             # UPDATE THIS
+    s3_path_prefix: data-phantom          # S3 folder prefix
+    region: us-east-1                     # AWS region
+    stack_name: DataPhantomClusterStack   # CloudFormation stack
+    cluster_logical_id: DataPhantomCluster
+    step_polling_interval: 30000          # 30 seconds - EMR status check
+    max_step_retries: 3                   # Retry failed EMR steps</code>
+                                            </div>
+                                            <p><strong>Purpose:</strong> Enables execution of Hive, Presto, and Spark SQL tasks on AWS EMR clusters. All task outputs are stored in S3.</p>
+                                            
+                                            <div class="warning-box">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                                <div>
+                                                    <strong>CloudFormation Requirement:</strong> The system expects a CloudFormation script to be deployed with a <code>"random"</code> parameter. Data Phantom will automatically update this parameter with a random integer value to spin up EMR clusters dynamically.
+                                                </div>
+                                            </div>
+                                            
+                                            <h6>CloudFormation Setup Requirements:</h6>
+                                            <ul>
+                                                <li><strong>Random Parameter:</strong> Your CloudFormation template must include a parameter named <code>"random"</code></li>
+                                                <li><strong>EMR Lifecycle:</strong> The CloudFormation script should handle EMR cluster lifecycle management (creation, scaling, termination)</li>
+                                                <li><strong>Stack Updates:</strong> Data Phantom updates the stack by changing the random parameter value</li>
+                                                <li><strong>Cluster Management:</strong> Auto-scaling, spot instances, and termination policies should be defined in the CloudFormation template</li>
+                                            </ul>
+                                            
+                                            <div class="info-box">
+                                                <i class="fas fa-info-circle"></i>
+                                                <div>
+                                                    <strong>Example CloudFormation Parameter:</strong>
+                                                    <div class="code-block" style="margin-top: 0.5rem;">
+                                                        <code>Parameters:
+  random:
+    Type: Number
+    Description: Random value to trigger cluster updates
+    Default: 12345</code>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="config-section">
+                                            <h5><i class="fas fa-database"></i> MySQL Connector (Optional)</h5>
+                                            <div class="code-block">
+                                                <code>connector:
+  mysql:
+    driverClass: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/your_data_db
+    user: your_username                   # UPDATE THIS
+    password: your_password               # UPDATE THIS
+    outputDirectory: /tmp/sql-output      # Local output directory</code>
+                                            </div>
+                                            <p><strong>Purpose:</strong> Enables MySQL tasks to connect to external MySQL/MariaDB databases for data extraction and processing.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <p>The backend will start on:</p>
+                                    <ul>
+                                        <li><strong>API Server:</strong> <code>http://localhost:9092</code></li>
+                                        <li><strong>Admin Interface:</strong> <code>http://localhost:9093</code></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">4</span>
+                                    <h3>Setup and Start Frontend</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Install dependencies and start the React dashboard:</p>
+                                    <div class="code-block">
+                                        <code># Navigate to frontend directory (in new terminal)
+cd data-phantom-dashboard
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start</code>
+                                    </div>
+                                    
+                                    <p>The frontend dashboard will be available at:</p>
+                                    <ul>
+                                        <li><strong>React Dashboard:</strong> <code>http://localhost:3000</code></li>
+                                    </ul>
+                                    
+                                    <div class="info-box">
+                                        <i class="fas fa-info-circle"></i>
+                                        <div>
+                                            <strong>Frontend Repository:</strong> The React dashboard is maintained separately at <a href="https://github.com/arcticOak2/data-phantom-dashboard" target="_blank">data-phantom-dashboard</a>.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">5</span>
+                                    <h3>Verify Complete Setup</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Test that all components are working together:</p>
+                                    
+                                    <div class="verification-checklist">
+                                        <div class="check-item">
+                                            <i class="fas fa-check-circle"></i>
+                                            <div>
+                                                <h4>Backend Health Check</h4>
+                                                <p>Verify API is running:</p>
+                                                <div class="code-block">
+                                                    <code>curl http://localhost:9093/health</code>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="check-item">
+                                            <i class="fas fa-check-circle"></i>
+                                            <div>
+                                                <h4>Database Connection</h4>
+                                                <p>Test database connectivity:</p>
+                                                <div class="code-block">
+                                                    <code>curl http://localhost:9092/data-phantom/ping</code>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="check-item">
+                                            <i class="fas fa-check-circle"></i>
+                                            <div>
+                                                <h4>Frontend Dashboard</h4>
+                                                <p>Access the React dashboard at <code>http://localhost:3000</code> and verify it can communicate with the backend API.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2>Creating Your First Playground</h2>
+                        <p>With both backend and frontend running, you can now create your first data processing playground:</p>
+                        
+                        <div class="step-by-step">
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">1</span>
+                                    <h3>Access the Application</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Open your web browser and navigate to:</p>
+                                    <div class="code-block">
+                                        <code>http://localhost:9092</code>
+                                    </div>
+                                    <p>You should see the Data Phantom API endpoints. For the web interface, clone and run the <a href="https://github.com/arcticOak2/data-phantom-dashboard" target="_blank">React dashboard</a>.</p>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">2</span>
+                                    <h3>Register a User</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Create a user account using the API:</p>
+                                    <div class="code-block">
+                                        <code>curl -X POST http://localhost:9092/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "your_username",
+    "email": "your_email@example.com",
+    "password": "your_secure_password"
+  }'</code>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-header">
+                                    <span class="step-number">3</span>
+                                    <h3>Create a Playground</h3>
+                                </div>
+                                <div class="step-content">
+                                    <p>Create your first playground for organizing your data processing tasks:</p>
+                                    <div class="code-block">
+                                        <code>curl -X POST http://localhost:9092/data-phantom/playground \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "name": "My First Playground",
+    "userId": "your_user_id",
+    "cronExpression": "0 9 * * MON-FRI"
+  }'</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="verification" class="content-section">
+                        <h2>Verification</h2>
+                        <p>Verify that your Data Phantom installation is working correctly:</p>
+                        
+                        <div class="verification-checklist">
+                            <div class="check-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Health Check</h4>
+                                    <p>Test the health endpoint:</p>
+                                    <div class="code-block">
+                                        <code>curl http://localhost:9093/health</code>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="check-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Database Connection</h4>
+                                    <p>Verify database connectivity:</p>
+                                    <div class="code-block">
+                                        <code>curl http://localhost:9092/data-phantom/ping</code>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="check-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>API Endpoints</h4>
+                                    <p>Test API accessibility:</p>
+                                    <div class="code-block">
+                                        <code>curl http://localhost:9092/data-phantom/playground/test-user</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="next-steps" class="content-section">
+                        <h2>Next Steps</h2>
+                        <p>Congratulations! You now have Data Phantom running. Here's what you can do next:</p>
+                        
+                        <div class="next-steps-grid">
+                            <div class="next-step-card">
+                                <i class="fas fa-rocket"></i>
+                                <h4>Quick Start Guide</h4>
+                                <p>Get started quickly with step-by-step visual guide</p>
+                                <a href="quick-start.html" class="btn btn-primary">Quick Start</a>
+                            </div>
+                            
+                            <div class="next-step-card">
+                                <i class="fas fa-cog"></i>
+                                <h4>Advanced Configuration</h4>
+                                <p>Customize Data Phantom for your specific needs</p>
+                                <a href="configuration.html" class="btn btn-primary">Configuration</a>
+                            </div>
+                            
+                            
+                            <div class="next-step-card">
+                                <i class="fas fa-desktop"></i>
+                                <h4>Install Dashboard</h4>
+                                <p>Set up the React-based web interface</p>
+                                <a href="https://github.com/arcticOak2/data-phantom-dashboard" class="btn btn-primary" target="_blank">Dashboard</a>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Data Phantom Platform</h4>
+                    <p>Enterprise-grade data processing and analytics platform</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="getting-started.html">Getting Started</a></li>
+                        <li><a href="quick-start.html">Quick Start</a></li>
+                        <li><a href="configuration.html">Configuration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><strong>Abhijeet Kumar</strong></p>
+                    <p><a href="mailto:searchabhijeet@gmail.com">searchabhijeet@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Data Phantom Platform. Licensed under Apache License 2.0.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/prism.js"></script>
+</body>
+</html>

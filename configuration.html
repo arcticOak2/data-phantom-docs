@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Guide - Data Phantom Platform</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/prism.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-database"></i>
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <span>Data Phantom</span>
+                </a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="getting-started.html" class="nav-link">Getting Started</a>
+                <a href="quick-start.html" class="nav-link">Quick Start</a>
+                <a href="configuration.html" class="nav-link active">Configuration</a>
+                <a href="https://github.com/arcticOak2/annihilator-data-playground" class="nav-link" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Configuration Content -->
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <nav class="sidebar-nav">
+                        <h4>Configuration</h4>
+                        <ul>
+                            <li><a href="#overview">Overview</a></li>
+                            <li><a href="#file-structure">File Structure</a></li>
+                            <li><a href="#server-config">Server Configuration</a></li>
+                            <li><a href="#database-config">Database</a></li>
+                            <li><a href="#jwt-config">JWT Authentication</a></li>
+                            <li><a href="#concurrency-config">Concurrency</a></li>
+                            <li><a href="#aws-config">AWS Integration</a></li>
+                            <li><a href="#reconciliation-config">Reconciliation</a></li>
+                            <li><a href="#environment-variables">Configuration Management</a></li>
+                            <li><a href="#performance-tuning">Performance Tuning</a></li>
+                            <li><a href="#security">Security</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="main-content">
+                    <header class="page-header">
+                        <h1>Configuration Guide</h1>
+                        <p>Comprehensive guide to configuring Data Phantom Platform for your environment</p>
+                    </header>
+
+                    <section id="overview" class="content-section">
+                        <h2>Overview</h2>
+                        <p>Data Phantom uses a YAML-based configuration system that allows you to customize all aspects of the application without code changes. The configuration file supports environment variable substitution for sensitive data.</p>
+                        
+                        <div class="info-box">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>Configuration File:</strong> Located at <code>src/main/resources/config-dev.yml</code><br>
+                                <strong>Environment Support:</strong> Use <code>${VAR_NAME:default_value}</code> syntax for environment variables
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="file-structure" class="content-section">
+                        <h2>Configuration File Structure</h2>
+                        <p>The configuration file is organized into logical sections:</p>
+                        
+                        <div class="code-block">
+                            <code>config-dev.yml
+├── server                 # Server and port configuration
+├── meta_store            # Database connection settings
+├── jwt                   # JWT authentication settings
+├── concurrency_config    # Thread pool and performance settings
+├── reconciliation_settings # Data comparison settings
+└── connector             # External service connectors
+    ├── aws_emr          # AWS EMR configuration
+    └── mysql            # MySQL connector settings</code>
+                        </div>
+                    </section>
+
+                    <section id="server-config" class="content-section">
+                        <h2>Server Configuration</h2>
+                        <p>Configure the main application server and administrative interface:</p>
+                        
+                        <div class="config-example">
+                            <h4>Basic Server Configuration</h4>
+                            <div class="code-block">
+                                <code>server:
+  applicationConnectors:
+    - type: http
+      port: 9092
+      bindHost: 0.0.0.0
+
+  adminConnectors:
+    - type: http
+      port: 9093
+      bindHost: 0.0.0.0</code>
+                            </div>
+                        </div>
+                        
+                        <div class="config-table">
+                            <h4>Server Parameters</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Default</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>applicationConnectors.port</code></td>
+                                        <td>9092</td>
+                                        <td>Main API server port</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>adminConnectors.port</code></td>
+                                        <td>9093</td>
+                                        <td>Administrative interface port</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>bindHost</code></td>
+                                        <td>0.0.0.0</td>
+                                        <td>Network interface to bind to</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="warning-box">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>Security Note:</strong> In production, consider binding to specific interfaces rather than 0.0.0.0, and use HTTPS with proper SSL certificates.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="database-config" class="content-section">
+                        <h2>Database Configuration</h2>
+                        <p>Configure the metadata database connection and connection pool settings:</p>
+                        
+                        <div class="config-example">
+                            <h4>Database Configuration</h4>
+                            <div class="code-block">
+                                <code>meta_store:
+  driverClass: org.mariadb.jdbc.Driver
+  url: ${MYSQL_URL:jdbc:mariadb://localhost:3306/data_phantom}
+  user: ${MYSQL_USER:root}
+  password: ${MYSQL_PASSWORD:your-password}
+  
+  # Connection Pool Settings
+  maxSize: 50
+  minSize: 10
+  maxWaitForConnection: 30s
+  maxConnectionAge: 30m
+  minIdleTime: 10m
+  
+  # Health Check Settings
+  validationQuery: "SELECT 1"
+  validationQueryTimeout: 3s
+  checkConnectionOnBorrow: true
+  checkConnectionOnReturn: true</code>
+                            </div>
+                        </div>
+                        
+                        <div class="config-table">
+                            <h4>Database Parameters</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Recommended</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>maxSize</code></td>
+                                        <td>50</td>
+                                        <td>Maximum number of database connections</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>minSize</code></td>
+                                        <td>10</td>
+                                        <td>Minimum number of connections to maintain</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>maxWaitForConnection</code></td>
+                                        <td>30s</td>
+                                        <td>Maximum time to wait for a connection</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>maxConnectionAge</code></td>
+                                        <td>30m</td>
+                                        <td>Maximum lifetime of a connection</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section id="jwt-config" class="content-section">
+                        <h2>JWT Authentication</h2>
+                        <p>Configure JSON Web Token authentication settings:</p>
+                        
+                        <div class="config-example">
+                            <h4>JWT Configuration</h4>
+                            <div class="code-block">
+                                <code>jwt:
+  secretKey: "${JWT_SECRET_KEY:your-super-secret-jwt-key-change-this-in-production}"
+  
+  tokenExpirationMinutes: 60
+  refreshTokenExpirationDays: 7</code>
+                            </div>
+                        </div>
+                        
+                        <div class="security-box">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>Security Requirements</h4>
+                                <ul>
+                                    <li><strong>Secret Key:</strong> Must be at least 256 bits (32 characters) for HS256</li>
+                                    <li><strong>Production:</strong> Always use environment variables for the secret key</li>
+                                    <li><strong>Rotation:</strong> Consider implementing key rotation for enhanced security</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="config-example">
+                            <h4>Generating a Secure Secret Key</h4>
+                            <div class="code-block">
+                                <code># Generate a secure random key
+openssl rand -base64 32
+
+# Or use Java
+java -cp target/classes com.annihilator.data.playground.utility.KeyGenerator</code>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="concurrency-config" class="content-section">
+                        <h2>Concurrency Configuration</h2>
+                        <p>Configure thread pools and execution settings for optimal performance:</p>
+                        
+                        <div class="config-example">
+                            <h4>Concurrency Settings</h4>
+                            <div class="code-block">
+                                <code>concurrency_config:
+  # Thread Pool Sizes
+  adhoc_threadpool_size: 200
+  scheduled_threadpool_size: 200
+  
+  # Scheduler Settings
+  scheduler_sleep_time: 300000          # 5 minutes
+  playground_execution_grace_period: 300000    # 5 minutes
+  playground_max_execution_frequency: 360000   # 6 minutes</code>
+                            </div>
+                        </div>
+                        
+                        <div class="performance-guide">
+                            <h4>Performance Guidelines</h4>
+                            <div class="performance-item">
+                                <h5><i class="fas fa-cogs"></i> Thread Pool Sizing</h5>
+                                <ul>
+                                    <li><strong>adhoc_threadpool_size:</strong> Based on expected concurrent ad-hoc runs</li>
+                                    <li><strong>scheduled_threadpool_size:</strong> Based on number of scheduled playgrounds</li>
+                                    <li><strong>Recommendation:</strong> Start with 200, monitor CPU and memory usage</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="performance-item">
+                                <h5><i class="fas fa-clock"></i> Scheduler Timing</h5>
+                                <ul>
+                                    <li><strong>scheduler_sleep_time:</strong> Priority queue scan interval (5 minutes default)</li>
+                                    <li><strong>grace_period:</strong> Time before considering a playground stuck</li>
+                                    <li><strong>max_frequency:</strong> Prevents playground execution overlap</li>
+                                    <li><strong>Auto-discovery:</strong> Picks up playground cron changes every 5 minutes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="aws-config" class="content-section">
+                        <h2>AWS Integration</h2>
+                        <p>Configure AWS EMR and S3 integration for cloud-based data processing:</p>
+                        
+                        <div class="config-example">
+                            <h4>AWS EMR Configuration</h4>
+                            <div class="code-block">
+                                <code>connector:
+  aws_emr:
+    # Authentication
+    access_key: ${AWS_ACCESS_KEY_ID:your-access-key}
+    secret_key: ${AWS_SECRET_ACCESS_KEY:your-secret-key}
+    
+    # S3 Configuration
+    s3_bucket: ${AWS_S3_BUCKET:your-s3-bucket}
+    s3_path_prefix: ${AWS_S3_PATH_PREFIX:data-phantom}
+    
+    # Regional Settings
+    region: ${AWS_REGION:us-east-1}
+    
+    # EMR Cluster Settings
+    stack_name: ${AWS_STACK_NAME:DataPhantomClusterStack}
+    cluster_logical_id: ${AWS_CLUSTER_LOGICAL_ID:DataPhantomCluster}
+    
+    # Performance Settings
+    step_polling_interval: 30000         # 30 seconds
+    stack_update_polling_interval: 30000 # 30 seconds
+    stack_update_check_max_attempt: 60
+    
+    # S3 Settings
+    s3_output_preview_line_count: 100
+    s3_max_keys_per_request: 20
+    max_step_retries: 3</code>
+                            </div>
+                        </div>
+                        
+                        <div class="aws-optimization">
+                            <h4>AWS Optimization Tips</h4>
+                            <div class="optimization-item">
+                                <h5><i class="fab fa-aws"></i> Cost Optimization</h5>
+                                <ul>
+                                    <li>Use spot instances for EMR clusters when possible</li>
+                                    <li>Configure auto-termination for idle clusters</li>
+                                    <li>Use S3 lifecycle policies for data archival</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="optimization-item">
+                                <h5><i class="fas fa-tachometer-alt"></i> Performance Optimization</h5>
+                                <ul>
+                                    <li><strong>step_polling_interval:</strong> Lower values = faster updates, more API calls</li>
+                                    <li><strong>s3_max_keys_per_request:</strong> Higher values = fewer API calls, more memory</li>
+                                    <li><strong>max_step_retries:</strong> Higher values = more resilience, longer recovery time</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="reconciliation-config" class="content-section">
+                        <h2>Data Reconciliation</h2>
+                        <p>Configure settings for data comparison and validation:</p>
+                        
+                        <div class="config-example">
+                            <h4>Reconciliation Settings</h4>
+                            <div class="code-block">
+                                <code>reconciliation_settings:
+  exact_match_threshold: 1048576      # 1MB - files smaller use exact matching
+  
+  false_positive_rate: 0.1            # 10% false positive rate for bloom filter
+  estimated_rows: 1000000             # Estimated rows for bloom filter sizing</code>
+                            </div>
+                        </div>
+                        
+                        <div class="reconciliation-guide">
+                            <h4>Algorithm Selection</h4>
+                            <div class="algorithm-item">
+                                <h5><i class="fas fa-equals"></i> Exact Matching</h5>
+                                <p>Used for files smaller than <code>exact_match_threshold</code></p>
+                                <ul>
+                                    <li><strong>Pros:</strong> 100% accurate, no false positives</li>
+                                    <li><strong>Cons:</strong> Memory intensive for large files</li>
+                                    <li><strong>Best for:</strong> Small to medium datasets</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="algorithm-item">
+                                <h5><i class="fas fa-filter"></i> Bloom Filter</h5>
+                                <p>Used for files larger than <code>exact_match_threshold</code></p>
+                                <ul>
+                                    <li><strong>Pros:</strong> Memory efficient, fast processing</li>
+                                    <li><strong>Cons:</strong> Configurable false positive rate</li>
+                                    <li><strong>Best for:</strong> Large datasets (millions of records)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="environment-variables" class="content-section">
+                        <h2>Configuration Management</h2>
+                        <p>All configurations and secrets should be managed in <code>config-dev.yml</code>:</p>
+                        
+                        <div class="env-categories">
+                            <div class="env-category">
+                                <h4><i class="fas fa-database"></i> Database Configuration</h4>
+                                <div class="code-block">
+                                    <code># Add to src/main/resources/config-dev.yml
+
+# ============================================
+# Database Configuration
+# ============================================
+meta_store:
+  driverClass: org.mariadb.jdbc.Driver
+  url: jdbc:mariadb://localhost:3306/data_phantom
+  user: root
+  password: your_secure_password
+  maxSize: 50
+  minSize: 10
+  maxWaitForConnection: 30s
+  maxConnectionAge: 30m
+  minIdleTime: 10m
+  validationQuery: "SELECT 1"
+  validationQueryTimeout: 3s</code>
+                                </div>
+                            </div>
+                            
+                            <div class="env-category">
+                                <h4><i class="fab fa-aws"></i> AWS Configuration</h4>
+                                <div class="code-block">
+                                    <code># Add to src/main/resources/config-dev.yml
+
+# ============================================
+# AWS EMR Configuration
+# ============================================
+connector:
+  aws_emr:
+    access_key: your-access-key
+    secret_key: your-secret-key
+    s3_bucket: your-s3-bucket
+    s3_path_prefix: data-phantom
+    region: us-east-1
+    stack_name: DataPhantomClusterStack
+    cluster_logical_id: DataPhantomCluster
+    step_polling_interval: 30000
+    max_step_retries: 3</code>
+                                </div>
+                            </div>
+                            
+                            <div class="env-category">
+                                <h4><i class="fas fa-key"></i> Security Configuration</h4>
+                                <div class="code-block">
+                                    <code># Add to src/main/resources/config-dev.yml
+
+# ============================================
+# JWT Security Configuration
+# ============================================
+jwt:
+  secretKey: "your-super-secret-jwt-key-change-this-in-production"
+  tokenExpirationMinutes: 60
+  refreshTokenExpirationDays: 7
+
+
+# ============================================
+# SQL Connector Configuration
+# ============================================
+connector:
+  mysql:
+    output_directory: /tmp/sql-output</code>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="env-persistence">
+                            <h4>Best Practices for Configuration</h4>
+                            <div class="alert alert-info">
+                                <ul>
+                                    <li><strong>Never commit secrets:</strong> Add <code>config-dev.yml</code> to <code>.gitignore</code> if it contains real credentials</li>
+                                    <li><strong>Use different configs per environment:</strong> Create <code>config-dev.yml</code>, <code>config-staging.yml</code>, <code>config-prod.yml</code></li>
+                                    <li><strong>Keep a template:</strong> Maintain <code>config-template.yml</code> with placeholder values in version control</li>
+                                    <li><strong>Environment-specific values:</strong> Use different credential sets for development, staging, and production</li>
+                                </ul>
+                            </div>
+                            <div class="code-block">
+                                <code># Example: Create a template file for version control
+cp config-dev.yml config-template.yml
+
+# Replace real values with placeholders in template
+sed -i 's/password: .*/password: YOUR_PASSWORD_HERE/g' config-template.yml
+sed -i 's/access_key: .*/access_key: YOUR_AWS_ACCESS_KEY/g' config-template.yml
+sed -i 's/secret_key: .*/secret_key: YOUR_AWS_SECRET_KEY/g' config-template.yml
+
+# Add template to git, ignore actual config
+git add config-template.yml
+echo "config-dev.yml" >> .gitignore</code>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="performance-tuning" class="content-section">
+                        <h2>Performance Tuning</h2>
+                        <p>Optimize Data Phantom for your specific workload and infrastructure:</p>
+                        
+                        <div class="tuning-sections">
+                            <div class="tuning-section">
+                                <h4><i class="fas fa-server"></i> Server Performance</h4>
+                                <div class="code-block">
+                                    <code># JVM Tuning (add to startup script)
+export JAVA_OPTS="-Xmx4g -Xms2g -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+
+# For production workloads
+export JAVA_OPTS="-Xmx8g -Xms4g -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI"</code>
+                                </div>
+                            </div>
+                            
+                            <div class="tuning-section">
+                                <h4><i class="fas fa-database"></i> Database Performance</h4>
+                                <div class="code-block">
+                                    <code># High-performance database configuration
+meta_store:
+  maxSize: 100              # More connections for high concurrency
+  minSize: 20               # Keep more connections warm
+  maxWaitForConnection: 10s # Fail fast under load
+  maxConnectionAge: 15m     # Shorter connection lifetime
+  minIdleTime: 5m           # More aggressive cleanup</code>
+                                </div>
+                            </div>
+                            
+                            <div class="tuning-section">
+                                <h4><i class="fas fa-cogs"></i> Concurrency Tuning</h4>
+                                <div class="code-block">
+                                    <code># High-throughput configuration
+concurrency_config:
+  adhoc_threadpool_size: 500      # More concurrent executions
+  scheduled_threadpool_size: 200   # Adequate for scheduled tasks
+  scheduler_sleep_time: 60000      # More frequent checks (1 minute)</code>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="monitoring-section">
+                            <h4>Performance Monitoring</h4>
+                            <p>Monitor these key metrics to optimize performance:</p>
+                            <ul>
+                                <li><strong>CPU Usage:</strong> Should typically be below 80%</li>
+                                <li><strong>Memory Usage:</strong> Monitor heap usage and GC frequency</li>
+                                <li><strong>Database Connections:</strong> Monitor pool utilization</li>
+                                <li><strong>Thread Pool Usage:</strong> Monitor queue sizes and active threads</li>
+                                <li><strong>API Response Times:</strong> Track endpoint performance</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="security" class="content-section">
+                        <h2>Security Best Practices</h2>
+                        <p>Secure your Data Phantom deployment:</p>
+                        
+                        <div class="security-checklist">
+                            <div class="security-item">
+                                <h4><i class="fas fa-shield-alt"></i> Authentication & Authorization</h4>
+                                <ul>
+                                    <li>Use strong, randomly generated JWT secret keys</li>
+                                    <li>Implement short token expiration times (15-60 minutes)</li>
+                                    <li>Use refresh tokens for long-lived sessions</li>
+                                    <li>Consider implementing role-based access control (RBAC)</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="security-item">
+                                <h4><i class="fas fa-network-wired"></i> Network Security</h4>
+                                <ul>
+                                    <li>Use HTTPS in production with valid SSL certificates</li>
+                                    <li>Implement firewall rules to restrict access</li>
+                                    <li>Use VPC and security groups in AWS</li>
+                                    <li>Consider using a reverse proxy (nginx, Apache)</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="security-item">
+                                <h4><i class="fas fa-database"></i> Database Security</h4>
+                                <ul>
+                                    <li>Use strong database passwords</li>
+                                    <li>Enable SSL/TLS for database connections</li>
+                                    <li>Create dedicated database users with minimal permissions</li>
+                                    <li>Regular database backups and encryption at rest</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="security-item">
+                                <h4><i class="fab fa-aws"></i> AWS Security</h4>
+                                <ul>
+                                    <li>Use IAM roles instead of access keys when possible</li>
+                                    <li>Follow principle of least privilege for AWS permissions</li>
+                                    <li>Enable S3 bucket encryption</li>
+                                    <li>Use VPC endpoints for S3 access</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="production-checklist">
+                            <h4>Production Deployment Checklist</h4>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check1">
+                                <label for="check1">Change default JWT secret key</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check2">
+                                <label for="check2">Use environment variables for all sensitive data</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check3">
+                                <label for="check3">Enable HTTPS with valid SSL certificates</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check4">
+                                <label for="check4">Configure firewall and network access rules</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check5">
+                                <label for="check5">Set up monitoring and logging</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check6">
+                                <label for="check6">Configure database backup strategy</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="check7">
+                                <label for="check7">Review and test disaster recovery procedures</label>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Data Phantom Platform</h4>
+                    <p>Enterprise-grade data processing and analytics platform</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="getting-started.html">Getting Started</a></li>
+                        <li><a href="quick-start.html">Quick Start</a></li>
+                        <li><a href="configuration.html">Configuration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><strong>Abhijeet Kumar</strong></p>
+                    <p><a href="mailto:searchabhijeet@gmail.com">searchabhijeet@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Data Phantom Platform. Licensed under Apache License 2.0.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/prism.js"></script>
+</body>
+</html>

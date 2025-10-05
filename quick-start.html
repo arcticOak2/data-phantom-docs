@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start Guide - Data Phantom Platform</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/prism.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .screenshot {
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .screenshot img {
+            width: 100%;
+            display: block;
+        }
+        .screenshot-caption {
+            background: #f8f9fa;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+        .step-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .quick-tip {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .quick-tip strong {
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-database"></i>
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <span>Data Phantom</span>
+                </a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="getting-started.html" class="nav-link">Getting Started</a>
+                <a href="quick-start.html" class="nav-link active">Quick Start</a>
+                <a href="configuration.html" class="nav-link">Configuration</a>
+                <a href="https://github.com/arcticOak2/annihilator-data-playground" class="nav-link" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container" style="max-width: 1200px; margin: 6rem auto 2rem; padding: 0 2rem;">
+        <header class="page-header">
+            <h1>Quick Start Guide</h1>
+            <p>Get up and running with Data Phantom in minutes. This visual guide walks you through creating your first playground, tasks, and data reconciliation.</p>
+        </header>
+
+        <!-- Step 1: Login -->
+        <section class="content-section">
+            <span class="step-badge">STEP 1</span>
+            <h2>Login to Data Phantom</h2>
+            <p>Access the Data Phantom dashboard by logging in with your credentials. If you're a new user, click on "Create an account" to register.</p>
+            
+            <div class="screenshot">
+                <img src="assets/images/01-login-page.png" alt="Data Phantom Login Page">
+                <div class="screenshot-caption">
+                    <strong>Login Page:</strong> Enter your email and password to access the dashboard. New users can click "Create an account" to register.
+                </div>
+            </div>
+
+            <div class="quick-tip">
+                <strong>Quick Tip:</strong> Make sure your backend is running on port 9092 and you've configured your database connection in <code>config-dev.yml</code>.
+            </div>
+        </section>
+
+        <!-- Step 2: Dashboard Overview -->
+        <section class="content-section">
+            <span class="step-badge">STEP 2</span>
+            <h2>Explore the Dashboard</h2>
+            <p>After logging in, you'll see the main dashboard with two key sections:</p>
+            <ul>
+                <li><strong>UDF Library:</strong> Manage your User-Defined Functions</li>
+                <li><strong>Workspace:</strong> Create and manage playgrounds (data processing workflows)</li>
+            </ul>
+
+            <div class="screenshot">
+                <img src="assets/images/02-empty-dashboard.png" alt="Empty Dashboard">
+                <div class="screenshot-caption">
+                    <strong>Empty Dashboard:</strong> When you first log in, you'll see "No playgrounds yet" - ready to create your first workflow!
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Create Playground -->
+        <section class="content-section">
+            <span class="step-badge">STEP 3</span>
+            <h2>Create Your First Playground</h2>
+            <p>A playground is a container for related data processing tasks. Click the <strong>+</strong> button in the workspace sidebar to create one.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/03-create-playground.png" alt="Create Playground Modal">
+                <div class="screenshot-caption">
+                    <strong>Create Playground:</strong> Enter a name and optionally a cron expression for scheduled execution. Leave the cron field empty for manual execution only.
+                </div>
+            </div>
+
+            <div class="quick-tip">
+                <strong>Cron Expressions:</strong> Use standard cron format (e.g., <code>0 0 * * *</code> for daily at midnight) or Quartz format. Leave empty for ad-hoc execution only.
+            </div>
+        </section>
+
+        <!-- Step 4: Playground Created -->
+        <section class="content-section">
+            <span class="step-badge">STEP 4</span>
+            <h2>View Your Playground</h2>
+            <p>Once created, your playground appears in the sidebar and opens in the main panel. You'll see the Task Management interface with several tabs:</p>
+            <ul>
+                <li><strong>Tasks:</strong> Create and manage SQL tasks</li>
+                <li><strong>Reconciliation:</strong> Set up data validation between tasks</li>
+                <li><strong>Graph:</strong> Visualize task dependencies</li>
+                <li><strong>Run History:</strong> Track execution history</li>
+                <li><strong>Notifications:</strong> Configure email alerts</li>
+            </ul>
+
+            <div class="screenshot">
+                <img src="assets/images/04-playground-empty.png" alt="Empty Playground">
+                <div class="screenshot-caption">
+                    <strong>New Playground:</strong> Shows "No Tasks Found" with a prompt to create your first task. The playground status shows as "IDLE" with "Never ran".
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 5: Create Task -->
+        <section class="content-section">
+            <span class="step-badge">STEP 5</span>
+            <h2>Create Your First Task</h2>
+            <p>Tasks are individual SQL operations that process data. Click <strong>"Create Task"</strong> to add a new task.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/05-create-task-modal.png" alt="Create Task Modal">
+                <div class="screenshot-caption">
+                    <strong>Create Task Form:</strong> Enter task name, select type (Hive, Presto, Spark SQL, etc.), write your SQL query, and optionally set a parent task for dependencies.
+                </div>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>Task Types Supported:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Hive:</strong> For data warehousing queries</li>
+                        <li><strong>Presto:</strong> For interactive analytics</li>
+                        <li><strong>Spark SQL:</strong> For distributed SQL processing</li>
+                        <li><strong>PySpark:</strong> For Python-based Spark jobs</li>
+                        <li><strong>MySQL:</strong> For direct database queries</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quick-tip">
+                <strong>Using UDFs:</strong> When creating a task, you'll see a list of registered UDFs on the side. Use the UDF method in your query and select the UDF that applies. You can select multiple UDFs for a single task to leverage custom functions in your queries.
+            </div>
+        </section>
+
+        <!-- Step 6: Task Created -->
+        <section class="content-section">
+            <span class="step-badge">STEP 6</span>
+            <h2>View Your Tasks</h2>
+            <p>After creating tasks, they appear in the task list with their type, status, and parent relationships.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/06-task-created.png" alt="Task List with One Task">
+                <div class="screenshot-caption">
+                    <strong>Task List:</strong> Shows the created task with status "UNKNOWN" (not yet executed). You can run, view, edit, or delete tasks using the action buttons.
+                </div>
+            </div>
+
+            <div class="quick-tip">
+                <strong>Running Tasks:</strong> Use <strong>"Run All Tasks"</strong> to execute the entire workflow, or <strong>"Select & Run"</strong> to run specific tasks while respecting dependencies.
+            </div>
+        </section>
+
+        <!-- Step 7: Graph View -->
+        <section class="content-section">
+            <span class="step-badge">STEP 7</span>
+            <h2>Visualize Your DAG</h2>
+            <p>Click the <strong>"Graph"</strong> tab to see a visual representation of your task dependencies.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/07-graph-view.png" alt="DAG Graph Visualization">
+                <div class="screenshot-caption">
+                    <strong>DAG Graph:</strong> Interactive visualization showing task flow from top to bottom. Each node displays task type and status. Use zoom controls to navigate large workflows.
+                </div>
+            </div>
+
+            <div class="quick-tip">
+                <strong>Graph Controls:</strong> Use the controls on the left to zoom in/out, fit to screen, or download the graph as an image.
+            </div>
+        </section>
+
+        <!-- Step 8: Run History -->
+        <section class="content-section">
+            <span class="step-badge">STEP 8</span>
+            <h2>Track Execution History</h2>
+            <p>The <strong>"Run History"</strong> tab shows all past executions with duration charts and per-task status.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/08-run-history.png" alt="Run History View">
+                <div class="screenshot-caption">
+                    <strong>Run History:</strong> Bar chart shows execution duration for each run. Color-coded grid shows success/failure status for each task in each run (Green = Success, Red = Failed, Gray = Skipped).
+                </div>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-chart-line"></i>
+                <div>
+                    <strong>Performance Monitoring:</strong> Use the duration chart to identify performance trends and spot anomalies. The task grid helps you quickly identify which tasks fail most frequently.
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 9: Notifications -->
+        <section class="content-section">
+            <span class="step-badge">STEP 9</span>
+            <h2>Set Up Email Notifications</h2>
+            <p>Configure email subscribers to receive execution reports via AWS SES.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/09-notifications.png" alt="Notifications Tab">
+                <div class="screenshot-caption">
+                    <strong>Email Notifications:</strong> Add email addresses to receive notifications when the playground executes. Configure AWS SES settings in your config-dev.yml file.
+                </div>
+            </div>
+
+            <div class="code-block">
+                <code># Configure AWS SES in config-dev.yml
+
+# ============================================
+# AWS SES Configuration for Notifications
+# ============================================
+notification:
+  aws_ses:
+    access_key: your-access-key
+    secret_key: your-secret-key
+    from: noreply@yourdomain.com
+    to: admin@yourdomain.com</code>
+            </div>
+        </section>
+
+        <!-- Step 10: Email Report -->
+        <section class="content-section">
+            <span class="step-badge">STEP 10</span>
+            <h2>Receive Execution Reports</h2>
+            <p>Subscribers receive detailed HTML email reports after each playground execution, showing task results and reconciliation metrics.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/10-email-report.png" alt="Email Report - Part 1">
+            </div>
+
+            <div class="screenshot">
+                <img src="assets/images/11-email-report-part2.png" alt="Email Report - Part 2">
+            </div>
+
+            <div class="screenshot-caption" style="margin-top: -1rem;">
+                <strong>Email Report:</strong> Shows DAG ID, execution summary (total/success/failed/skipped), individual task results, and reconciliation metrics with data comparison details.
+            </div>
+        </section>
+
+        <!-- Step 11: Reconciliation Setup -->
+        <section class="content-section">
+            <span class="step-badge">STEP 11</span>
+            <h2>Set Up Data Reconciliation</h2>
+            <p>Validate data consistency between tasks using reconciliation mappings.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/12-reconciliation-list.png" alt="Reconciliation Mappings">
+                <div class="screenshot-caption">
+                    <strong>Reconciliation Mappings:</strong> List of configured reconciliations showing task pairs, number of mapped fields, and status. Click "Create New Mapping" to add more.
+                </div>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-balance-scale"></i>
+                <div>
+                    <strong>Reconciliation Algorithms:</strong>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Files < 1MB:</strong> Exact matching (100% accurate)</li>
+                        <li><strong>Files > 1MB:</strong> Probabilistic matching using Bloom filters (memory efficient)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 12: Create Mapping & Field Mapping -->
+        <section class="content-section">
+            <span class="step-badge">STEP 12</span>
+            <h2>Create Reconciliation Mapping</h2>
+            <p>Select source and target tasks to compare their outputs, then define which columns to compare between them.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/13-create-reconciliation.png" alt="Create Reconciliation Mapping">
+                <div class="screenshot-caption">
+                    <strong>Reconciliation Mapping:</strong> Choose the two tasks you want to reconcile and map their corresponding fields. The source task provides the left dataset, the target provides the right dataset. You can map fields with different names (e.g., "emp_id" in source to "employee_id" in target).
+                </div>
+            </div>
+
+            <div class="quick-tip">
+                <strong>Field Mapping:</strong> Use the search boxes to quickly find fields in large datasets. The system will compare these mapped fields when reconciliation runs automatically after both tasks complete.
+            </div>
+        </section>
+
+        <!-- Step 13: UDF Library -->
+        <section class="content-section">
+            <span class="step-badge">STEP 13</span>
+            <h2>Manage User-Defined Functions</h2>
+            <p>Create and manage UDFs (User-Defined Functions) that can be reused across your tasks in queries.</p>
+
+            <div class="screenshot">
+                <img src="assets/images/14-udf-library.png" alt="UDF Library">
+                <div class="screenshot-caption">
+                    <strong>UDF Library:</strong> Create, edit, and manage custom functions for Hive and Presto. UDFs let you encapsulate reusable logic that can be called from any task's SQL query.
+                </div>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-code"></i>
+                <div>
+                    <strong>UDF Benefits:</strong> User-Defined Functions allow you to write custom business logic once and reuse it across multiple tasks, improving code maintainability and consistency.
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Steps -->
+        <section class="content-section">
+            <h2>Congratulations!</h2>
+            <p>You've completed the quick start guide and learned how to:</p>
+            <ul>
+                <li>Log in and navigate the dashboard</li>
+                <li>Create playgrounds and tasks</li>
+                <li>Build workflows with task dependencies</li>
+                <li>Visualize your DAG</li>
+                <li>Monitor execution history</li>
+                <li>Set up email notifications</li>
+                <li>Configure data reconciliation</li>
+            </ul>
+
+            <h3>What's Next?</h3>
+            <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 2rem;">
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h4>Configuration Guide</h4>
+                    <p>Learn about advanced configuration options</p>
+                    <a href="configuration.html" class="btn btn-secondary" style="margin-top: 1rem;">View Config</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h4>Full Installation</h4>
+                    <p>Complete setup guide with all details</p>
+                    <a href="getting-started.html" class="btn btn-secondary" style="margin-top: 1rem;">Getting Started</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Help Section -->
+        <section class="content-section">
+            <div class="info-box" style="background: #fff3cd; border-left-color: #ffc107;">
+                <i class="fas fa-question-circle" style="color: #f57c00;"></i>
+                <div>
+                    <strong>Need Help?</strong>
+                    <p style="margin-top: 0.5rem;">If you encounter any issues or have questions:</p>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Check the <a href="getting-started.html">Getting Started guide</a> for installation issues</li>
+                        <li>Review the <a href="configuration.html">Configuration guide</a> for setup problems</li>
+                        <li>Visit the <a href="https://github.com/arcticOak2/annihilator-data-playground" target="_blank">GitHub repository</a> to report bugs or request features</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Data Phantom Platform</h4>
+                    <p>A comprehensive data processing and analytics platform for managing SQL workflows.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="getting-started.html">Getting Started</a></li>
+                        <li><a href="quick-start.html">Quick Start</a></li>
+                        <li><a href="configuration.html">Configuration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/arcticOak2/annihilator-data-playground" target="_blank">GitHub Repository</a></li>
+                        <li><a href="https://github.com/arcticOak2/data-phantom-dashboard" target="_blank">Dashboard Repository</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="mailto:searchabhijeet@gmail.com">Email</a></li>
+                        <li><a href="https://www.linkedin.com/in/abhijeet-kumar-983b57a4/" target="_blank">LinkedIn</a></li>
+                        <li><a href="https://github.com/arcticOak2" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Data Phantom Platform. Licensed under Apache License 2.0.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/prism.js"></script>
+</body>
+</html>
+

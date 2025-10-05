@@ -1,0 +1,53 @@
+# GitHub Pages Configuration for Data Phantom Documentation
+
+# Site settings
+title: "Data Phantom Platform"
+description: "A comprehensive data processing and analytics platform for managing SQL workflows across multiple engines with AWS EMR integration"
+url: "https://yourusername.github.io"
+baseurl: "/data-phantom-docs"
+
+# Author information
+author:
+  name: "Abhijeet Kumar"
+  email: "searchabhijeet@gmail.com"
+  linkedin: "https://www.linkedin.com/in/abhijeet-kumar-983b57a4/"
+  github: "https://github.com/arcticOak2/annihilator-data-playground"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+encoding: utf-8
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude files from build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .sass-cache
+  - .jekyll-cache
+
+# Include files that start with underscore
+include:
+  - _config.yml
+
+# Repository information
+repository: "yourusername/data-phantom-docs"
+
+# SEO settings
+lang: "en"
+twitter:
+  username: "your_twitter_handle"
+
+# Google Analytics (optional)
+# google_analytics: "UA-XXXXXXXXX-X"
+
+# GitHub Pages specific settings
+github: [metadata]
